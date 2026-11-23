@@ -3,4 +3,4 @@ __pycache__/
 .pytest_cache/
 qpd-report/
 qnx-vm/
-build-qnx/*/**/*.o
+*.o

@@ -51,22 +51,21 @@ def make_image(workdir: Path, arch: str = "x86_64") -> Path:
     check_env()
     workdir = Path(workdir).resolve()
     workdir.mkdir(parents=True, exist_ok=True)
-    run(["mkqnximage", "--type=qemu", f"--arch={arch}", "--ssh-ident=none", "--hostname=qnxpd",
-         "--ip=dhcp", "--noprompt"], cwd=workdir)
+    run(["mkqnximage", "--type=qemu", f"--arch={arch}", "--ip=dhcp"], cwd=workdir)
     return workdir
 
 
 def _ip_from_image(workdir: Path) -> str:
-    f = Path(workdir) / "output" / "ip"
-    if f.exists():
-        return f.read_text().strip()
-    return "172.31.1.11"  # mkqnximage default for the qemu bridge
+    res = subprocess.run(["mkqnximage", "--getip"], cwd=workdir, capture_output=True, text=True)
+    ip = res.stdout.strip().splitlines()[-1] if res.stdout.strip() else ""
+    return ip or "172.31.1.11"  # mkqnximage default for the qemu bridge
 
 
 def boot(workdir: Path, wait: int = 90) -> str:
     workdir = Path(workdir).resolve()
     subprocess.Popen(["mkqnximage", "--run=-h"], cwd=workdir,
                      stdout=open(workdir / "qemu.log", "w"), stderr=subprocess.STDOUT)
+    time.sleep(10)
     ip = _ip_from_image(workdir)
     deadline = time.time() + wait
     while time.time() < deadline:

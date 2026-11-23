@@ -84,4 +84,4 @@ pip install pytest && pytest -q
 
 ## Status
 
-Work in progress for the QNX Global Hackathon (Developer Tooling & Host Tools). Target run logs from QNX 8.0 in QEMU will be committed under `examples/sensor-hub-qnx/target-run/`.
+Work in progress for the QNX Global Hackathon (Developer Tooling & Host Tools). Step-by-step setup for a real QNX 8.0 QEMU target: [docs/QNX_SETUP.md](docs/QNX_SETUP.md). Target run logs are committed under `examples/sensor-hub-qnx/target-run/`.
