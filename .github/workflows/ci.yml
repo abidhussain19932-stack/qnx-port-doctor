@@ -1,0 +1,17 @@
+name: ci
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: pip install -e . pytest
+      - run: pytest -q
+      - name: QNX portability gate on the ported sample
+        run: qnx-port-doctor scan examples/sensor-hub-qnx --fail-on-error
+      - name: SARIF for the Linux original
+        run: qnx-port-doctor scan examples/sensor-hub-linux -f sarif -o linux.sarif
+      - uses: actions/upload-artifact@v4
+        with: {name: sarif, path: linux.sarif}

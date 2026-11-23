@@ -1,0 +1,6 @@
+__pycache__/
+*.egg-info/
+.pytest_cache/
+qpd-report/
+qnx-vm/
+build-qnx/*/**/*.o

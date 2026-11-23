@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "qnx-port-doctor"
+version = "0.1.0"
+description = "Find Linux-only APIs in C/C++ code, generate QNX 8.0 build files, cross-build with qcc and run on QNX in QEMU"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.9"
+authors = [{name = "Abid Hussain"}]
+
+[project.scripts]
+qnx-port-doctor = "qnx_port_doctor.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
