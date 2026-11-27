@@ -111,6 +111,14 @@ RULES: list[Rule] = [
          r"\b(socket|getaddrinfo|inet_pton)\s*\(",
          "note",
          "Works on QNX, but link with -lsocket (the generated build files do this)."),
+    Rule("QPD019", "timerfd is not available",
+         r"\b(timerfd_create|timerfd_settime)\s*\(",
+         "error",
+         "Use POSIX timers (timer_create with SIGEV_PULSE) or ionotify; QNX has no timerfd."),
+    Rule("QPD020", "memfd_create is not available",
+         r"\bmemfd_create\s*\(",
+         "error",
+         "Use shm_open() plus ftruncate()/mmap(); QNX has no memfd_create."),
 ]
 
 RULES_BY_ID = {r.id: r for r in RULES}
